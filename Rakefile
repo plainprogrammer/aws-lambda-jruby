@@ -29,7 +29,6 @@ end
 def make_jar(source_folder, jar_file_name)
   ant.mkdir dir: CLASSES_DIR
   `jrubyc ./lib/hello.rb -t #{CLASSES_DIR} --javac`
-  ant.delete dir: "#{CLASSES_DIR}/lib"
   ant.javac srcdir: source_folder,
             destdir: CLASSES_DIR,
             classpathref: 'classpath',
@@ -37,8 +36,7 @@ def make_jar(source_folder, jar_file_name)
             debug: "yes",
             includeantruntime: "no"
   ant.jar jarfile: "#{COMPILE_DIR}/#{jar_file_name}", basedir: CLASSES_DIR do
-    zipgroupfileset dir: JARS_DIR, includes: "**/*.jar"
+    zipgroupfileset dir: JARS_DIR, includes: "jruby-complete-9.1.8.0.jar"
   end
-  ant.delete dir: CLASSES_DIR
   puts
 end
